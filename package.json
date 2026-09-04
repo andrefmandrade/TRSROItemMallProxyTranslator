@@ -1,0 +1,21 @@
+{
+  "name": "trsro-mall-translator",
+  "version": "1.0.0",
+  "description": "Translates the TRSRO Silkroad Online Item Mall into English while you play, without ever changing a price.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node tools/proxy.mjs",
+    "routes": "node tools/check-routes.mjs",
+    "coverage": "node tools/coverage.mjs",
+    "test": "node tools/test-translate.mjs && node tools/test-route.mjs && node tools/test-socks5.mjs",
+    "build": "node build/build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "postject": "^1.0.0-alpha.6"
+  }
+}

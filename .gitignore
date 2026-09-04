@@ -1,0 +1,9 @@
+node_modules/
+build/out/
+dist/
+
+# Written at runtime beside the executable.
+config/
+captures/
+untranslated.json
+.test-proxies.json

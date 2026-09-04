@@ -1,0 +1,12 @@
+{
+ "_comment": "The checkout and purchase-confirmation screens -- the last thing you see after clicking Buy, and the instructions for collecting the item in game.",
+
+ "Lütfen satın alma detaylarına göz atın.": "Please review your purchase details.",
+ "Uyarı! Limitli süreye sahip eşyalar sadece son kullanım tarihine kadar kullanılabilir. Lütfen tarihi kontrol edin.": "Warning! Time-limited items can only be used until their expiry date. Please check the date.",
+ "Ürün(ler) satın alındı.": "Item(s) purchased.",
+
+ "Satın Alınan Eşyaları Teslim Alma": "Collecting Your Purchased Items",
+ "1) Oyunu başlatın ve eşyayı satın aldığınız sunucuya giriş yapın.": "1) Start the game and log in to the server where you bought the item.",
+ "2) Hangi karakterle eşyayı teslim almak istiyorsanız o karakteri seçin.": "2) Select the character you want to collect the item with.",
+ "3) Ekranın sağ tarafında bulunan Item Deposu ikonuna tıklayın, orada satın alınan eşyalar görünecek. Listeden [al] butonuna tıkladığınızda, seçilen eşya envanterinize aktarılacak.": "3) Click the Item Storage icon on the right of the screen and your purchased items will be there. Clicking [take] in that list transfers the selected item to your inventory."
+}
