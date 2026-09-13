@@ -71,17 +71,52 @@ export function loadProxies(file = PROXIES_FILE) {
  * first ":" of the login separates user from password (so a password may contain
  * ":" too). Port defaults to 1080.
  */
+/**
+ * How much this half looks like an address: 2 with a real port, 1 bare, 0 not.
+ *
+ * A plain boolean is not enough. In "http://1.2.3.4:8085@bot" both halves are
+ * plausible hosts, and only the explicit port says which one is meant.
+ */
+function addressScore(s) {
+  if (!s) return 0;
+  const c = s.lastIndexOf(':');
+  if (c === -1) return 1;
+  const port = s.slice(c + 1);
+  return (/^\d+$/.test(port) && Number(port) >= 1 && Number(port) <= 65535) ? 2 : 0;
+}
+
 export function parseProxy(entry) {
   let text = String(entry ?? '').trim();
   if (!text || text.startsWith('#')) return null;
 
   let user = '', pass = '', address = text, protocol = 'socks5';
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(text)) {
-    const u = new URL(text);
-    protocol = /^https?:$/i.test(u.protocol) ? 'http' : 'socks5';
-    user = decodeURIComponent(u.username || '');
-    pass = decodeURIComponent(u.password || '');
-    address = `${u.hostname}:${u.port || (protocol === 'http' ? 8080 : 1080)}`;
+    const m = text.match(/^([a-z][a-z0-9+.-]*):\/\/(.*)$/i);
+    protocol = /^https?$/i.test(m[1]) ? 'http' : 'socks5';
+    const rest = m[2].replace(/\/+$/, '');
+    const at = rest.lastIndexOf('@');
+    if (at === -1) {
+      address = rest;
+    } else {
+      // A URL puts the login first (user:pass@host:port), but the format this
+      // file documents is the seller's order, and people paste that WITH the
+      // scheme glued on (http://host:port@user:pass). Both are reasonable to
+      // type, so the side that actually parses as an address wins, and a tie
+      // falls back to URL order. Getting this wrong is silent: the login
+      // becomes the hostname and the proxy is simply never reached.
+      const left = rest.slice(0, at), right = rest.slice(at + 1);
+      let login, decode;
+      if (addressScore(left) > addressScore(right)) {
+        address = left; login = right; decode = false;
+      } else {
+        login = left; address = right; decode = true;
+      }
+      const c = login.indexOf(':');
+      user = c === -1 ? login : login.slice(0, c);
+      pass = c === -1 ? '' : login.slice(c + 1);
+      if (decode) { user = decodeURIComponent(user); pass = decodeURIComponent(pass); }
+    }
+    if (!address.includes(':')) address += protocol === 'http' ? ':8080' : ':1080';
   } else {
     const at = text.indexOf('@');
     if (at !== -1) {

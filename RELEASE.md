@@ -5,6 +5,21 @@ mall as a website, so its text comes from the server and no archive edit can cha
 This is a small local proxy that sits in front of that one website and rewrites the visible
 text as the page loads. Nothing is installed and no game file is touched.
 
+## What's new in v1.1.0
+
+- Fixed a proxy address-parsing bug: a `scheme://host:port@user:pass` entry (a common way to
+  paste a proxy) could have its host and login read backwards, silently sending the mall
+  through the wrong address.
+- Fixed HTTPS mall pages (the Avatar & Pet Mall preview, among others) picking a random one of
+  the mall's three addresses on every load, including the two that never answer — that could
+  hang the connection with no error at all. It now reuses the same known-good address the rest
+  of the tool already tracks.
+- Raised the default connection pool per proxy (`MAX_SOCKETS`) from 8 to 20 — an HTTP proxy has
+  no per-connection handshake the way SOCKS5 does, so pages with lots of images load noticeably
+  faster when routed through a proxy.
+- ~20 more translated strings: the Avatar & Pet Mall list and preview screens, a few item
+  descriptions, and the Silk purchase guide.
+
 ## Setup
 
 1. Put `trsro-mall-translator.exe` in a folder of its own and run it. Leave the window open
@@ -29,15 +44,15 @@ public and the exe is Node plus this project's code — you can rebuild it yours
 **SHA-256**
 
 ```
-9f470f04aa2daf45f0d641aaa29eeb462b6164f5679a5279868c146a7dd8741b
+ad53ae8db4397ba1530081aea466b83b9182283e5d0c084f2047c62dda3c4e88
 ```
 
 Verify with `certutil -hashfile trsro-mall-translator.exe SHA256`.
 
 ## What is in it
 
-- 2,495 strings and 12 patterns
-- 2,137 of them taken straight from Joymax's own English client string tables
+- 2,517 strings and 12 patterns
+- 2,242 of them taken straight from Joymax's own English client string tables
 - The rest translated by hand: mall-only wording, purchase screens, tabs and buttons
 - Item names, descriptions, "How to Use", restrictions, history and favorites
 

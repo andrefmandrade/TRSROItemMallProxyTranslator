@@ -32,6 +32,22 @@ check('username with no password', parts('1.2.3.4:1080@bot'), ['1.2.3.4', 1080, 
 check('url form', parts('socks5://bot:secret@1.2.3.4:1080'), ['1.2.3.4', 1080, 'bot', 'secret']);
 check('url form percent-encoded', parts('socks5://bot:p%40ss@1.2.3.4:1080'), ['1.2.3.4', 1080, 'bot', 'p@ss']);
 
+// A scheme and the pasted order get combined, because this file documents both
+// and gluing them together is the obvious thing to type. Whichever half really
+// parses as an address wins; only a tie falls back to URL order. Read the wrong
+// way round, the login silently becomes the hostname and the proxy is never
+// reached -- no error, just a mall that will not load.
+check('scheme with the pasted order', parts('http://1.2.3.4:8085@bot:secret'),
+  ['1.2.3.4', 8085, 'bot', 'secret']);
+check('scheme, pasted order, login has no port', parts('http://1.2.3.4:8085@bot'),
+  ['1.2.3.4', 8085, 'bot', '']);
+check('scheme, url order, user only', parts('socks5://bot@1.2.3.4:1080'),
+  ['1.2.3.4', 1080, 'bot', '']);
+check('a tie falls back to url order', parts('socks5://5.6.7.8:1080@1.2.3.4:1080'),
+  ['1.2.3.4', 1080, '5.6.7.8', '1080']);
+check('the pasted order keeps its protocol',
+  parseProxy('http://1.2.3.4:8085@bot:secret').protocol, 'http');
+
 // --- protocol -------------------------------------------------------------
 // SOCKS5 is the default because that is the port phBot is pointed at.
 check('default protocol is socks5', parseProxy('1.2.3.4:1080').protocol, 'socks5');

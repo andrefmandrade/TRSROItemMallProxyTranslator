@@ -68,7 +68,7 @@ const routed = new Map();
 // 2 was a panic value chosen while every connection cost a SOCKS5 handshake; an
 // HTTP proxy has no handshake, so the pool can be wider. Tune with MAX_SOCKETS
 // if a seller starts refusing connections again.
-const MAX_SOCKETS = Number(process.env.MAX_SOCKETS || 8);
+const MAX_SOCKETS = Number(process.env.MAX_SOCKETS || 20);
 const POOL = {
   keepAlive: true,
   keepAliveMsecs: 10000,
@@ -379,15 +379,26 @@ const server = http.createServer(async (req, res) => {
 });
 
 // HTTPS: open a raw tunnel and stay out of it. Nothing is inspected or altered.
-server.on('connect', (req, clientSocket, head) => {
+server.on('connect', async (req, clientSocket, head) => {
   const [host, port = '443'] = req.url.split(':');
-  const upstream = net.connect(Number(port), host, () => {
+  const isMallHost = host.toLowerCase().endsWith(HOST);
+  // A bare net.connect(host) lets DNS round-robin across the mall's addresses,
+  // and two of the three complete the TCP handshake and then never speak (see
+  // src/host.mjs) -- fine for plain HTTP, where a silent response times out
+  // and the next address is tried, but fatal for a CONNECT tunnel: once the
+  // client is told "200 Connected" it starts its TLS handshake INTO the
+  // silence, and nothing here ever sees a byte to time out on. So the mall
+  // gets the same known-good address the HTTP path is already using, instead
+  // of its own private coin flip.
+  const ip = isMallHost ? (await candidates(host))[0] : null;
+  const upstream = net.connect(Number(port), ip || host, () => {
+    if (ip) markGood(ip);
     clientSocket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
     if (head && head.length) upstream.write(head);
     upstream.pipe(clientSocket);
     clientSocket.pipe(upstream);
   });
-  const drop = () => { upstream.destroy(); clientSocket.destroy(); };
+  const drop = () => { if (ip) markBad(ip); upstream.destroy(); clientSocket.destroy(); };
   upstream.on('error', drop);
   clientSocket.on('error', drop);
 });

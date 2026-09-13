@@ -44,5 +44,22 @@
  "Bir maceraperest tarafından keşfedilmiş uçamayan bir kuş.": "A flightless bird discovered by an adventurer.",
  "Bu tezgâh sevimli Mangryang bebekleri ile dekore edilmiştir.": "This stall is decorated with cute Mangryang dolls.",
  "2. \"Seviye Aktar\" seçeneğini seçin ve kaynak Fellows kaydedin.": "2. Select the \"Transfer Level\" option and register the source Fellow.",
- "Fellow Onyx Package 7 gün için Yapılı Arkadaşta kullanılabilir.": "The Fellow Onyx Package can be used on a Built Fellow for 7 days."
+ "Fellow Onyx Package 7 gün için Yapılı Arkadaşta kullanılabilir.": "The Fellow Onyx Package can be used on a Built Fellow for 7 days.",
+ "Eşya Alım Rehberi": "Item Purchase Guide",
+ "Silk(": "What is Silk(",
+ ") nedir?": ")?",
+ "Silkroad Online'da eşyalar takas edilebilir ve takas edilemez olarak ikiye ayrılır. Eşya Mağazasından alınan tüm eşyalar takas edilebilir.": "In Silkroad Online, items are divided into tradable and untradable. All items purchased from the Item Mall are tradable.",
+ "Eşya Mağazasından alınan tüm ürünler takas edilebilir.": "All products purchased from the Item Mall are tradable.",
+ "Eşyalar Silk(": "Items are purchased with Silk(",
+ ") ile alınır.": ").",
+ "Alım yapıldıktan sonra, Silk'iniz otomatik olarak düşer.": "After the purchase is made, your Silk balance is automatically deducted.",
+ "Silkroad Online'da dijital para birimi Silk olarak adlandırılır.": "In Silkroad Online, the digital currency is called Silk.",
+ "Silk, Silkroad Online'da eşyaları satın almaya yarayan dijital para birimidir.": "Silk is the digital currency used to purchase items in Silkroad Online.",
+ "Silk ile, eşya mağazasından ürünleri satın alabilirsiniz.": "With Silk, you can purchase products from the Item Mall.",
+ "Silk Satış Yöntemleri :": "Silk Sales Methods:",
+ "Kredi Kartı, Mobil Ödeme, Banka Transferi, E-Pin": "Credit Card, Mobile Payment, Bank Transfer, E-Pin",
+ "Eşya satın almayla ilgili tüm soru ve sorunlarınız için destek birimimize ulaşabilirsiniz.": "For any questions or issues about purchasing items, you can reach our support team.",
+ "Avatar & Pet Eşya Mağazası": "Avatar & Pet Item Mall",
+ "Seçili Eşyayın Satın Al": "Buy Selected Item",
+ "Eşya Mağazası bölümünün sağ üst tarafındaki [Silk Charge] butonuna basarak Silk satın alabilirsiniz.": "You can purchase Silk by clicking the [Silk Charge] button in the upper-right corner of the Item Mall section."
 }
